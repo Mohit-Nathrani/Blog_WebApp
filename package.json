@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+  	"client": "cd client",
+ 	"server": "cd server && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mohit Nathrani",
