@@ -7,7 +7,6 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const cookieSession = require('cookie-session');
 const authRoutes = require('./routes/auth-routes');
-const profileRoutes = require('./routes/profile-routes');
 const passportSetup = require('./config/passport-setup');
 const keys = require('./config/keys');
 
@@ -35,15 +34,41 @@ mongoose.Promise = global.Promise;
 
 //app.use(express.static(path.join(__dirname, 'client/build')));
  
-// set up routes
-app.use('/auth', authRoutes);
-app.use('/api/profile', profileRoutes);
-
 //basic-get
 app.get('/check',function(req,res){
-	res.send({success:true});
+    res.send({success:true});
 });
 
+// set up routes
+app.use('/auth', authRoutes);
+
+app.post('/api/home',function(req,res){
+	if(!req.user){
+        res.send({success:true, isAuth:false});
+    } 
+    else {
+        res.send({success:true, isAuth:true, user:req.user});
+    }
+});
+
+app.post('/api/profile', (req, res) => {
+    if(!req.user){
+        console.log('here');
+        res.send({success:true, isAuth:false});
+    } 
+    else{
+        res.send({success:true, isAuth:true, user:req.user});
+    }
+});
+
+app.post('/api/check_login',function(req,res){
+    if(!req.user){
+        res.send({success:true, isAuth:false});
+    } 
+    else {
+        res.send({success:true, isAuth:true, user:req.user});
+    }
+});
 
 /*
 app.get('*', (req, res) => {

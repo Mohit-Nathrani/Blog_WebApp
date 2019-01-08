@@ -3,7 +3,6 @@ const passport = require('passport');
 
 // login
 router.get('/login', (req, res) => {
-	console.log('mm');
     res.send({name:true});
 });
 
@@ -19,7 +18,6 @@ router.get('/google',passport.authenticate('google', {
 }));
 
 
-
 //  passport.authenticate('google', {
 //     scope: ['profile']
 // }));
@@ -28,7 +26,7 @@ router.get('/google',passport.authenticate('google', {
 // hand control to passport to use code to grab profile info
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     // res.send(req.user);
-    res.redirect('http://localhost:3000/profile');
+    res.redirect('http://localhost:3000');
 });
 
 module.exports = router;
