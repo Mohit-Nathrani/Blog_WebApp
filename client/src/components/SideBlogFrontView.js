@@ -39,7 +39,7 @@ function SideBlogFrontView(props) {
           <Grid item sm container>
            <Grid item xs={12} >
             <ButtonBase className={classes.image}>
-              <img className={classes.img} alt='featured' src='https://image.freepik.com/free-vector/pack-of-colorful-square-emoticons_23-2147589525.jpg' />
+              <img className={classes.img} alt='featured' src={props.thumbnail} />
             </ButtonBase>
           </Grid>
           

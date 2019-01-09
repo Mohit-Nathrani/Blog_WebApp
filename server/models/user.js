@@ -18,6 +18,10 @@ const UserSchema= new Schema({
     },
     thumbnail:{
       type: String
+    },
+    blogs:{
+      type: [Schema.ObjectId],
+      default: []
     }
 });
 

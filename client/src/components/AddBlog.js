@@ -101,7 +101,9 @@ class AddBlog extends Component {
       image:'',
       content:initialSource,
       open:false,
-      loaded:false
+      loaded:false,
+      auther_username: '',
+      auther_thumbnail: ''
     };
   }
 
@@ -121,7 +123,11 @@ class AddBlog extends Component {
         (result.isAuth)
         ?(
             this.props.setUser({isAuth:true, user:result.user}),
-            this.setState({loaded: true})
+            this.setState({
+              loaded: true,
+              auther_username: result.user.username,
+              auther_thumbnail: result.user.thumbnail
+            })
         )
         :(
           this.props.setUser({isAuth:false}),
@@ -178,6 +184,37 @@ class AddBlog extends Component {
   publish = () => {
     if(this.validate()){
       // save to server
+      fetch('/api/post_blog',{
+      method:"POST",
+      headers: {
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        "title":this.state.title,
+        "featured_image":this.state.image,
+        "content":[
+              {text:this.state.content,index:0,type:'h'}
+        ]
+      })
+    })
+    .then(res => res.json())
+    .then(result => 
+      (result.success)
+      ?(
+        (result.blog_created)
+        ?(
+            this.props.history.push('/blog/'+result.blog_id)
+        )
+        :(
+          this.props.setError(result.err)
+        )
+      )
+      :(
+        this.props.setError('Some Unknown Problem')
+      )
+    )
+    .catch(err =>  this.props.setError('Some Server Problem'));
     }
   }
 
@@ -268,8 +305,8 @@ class AddBlog extends Component {
           <BlogView
             title={this.state.title}
             image={this.state.image}
-            autherImage='https://material-ui.com/static/images/avatar/1.jpg'
-            auther='MKN'
+            autherImage={this.state.auther_thumbnail}
+            auther={this.state.auther_username}
             content={[
               {text:this.state.content,index:0,type:'h'}
             ]}/>

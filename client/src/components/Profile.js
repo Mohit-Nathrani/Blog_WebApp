@@ -31,7 +31,7 @@ class Profile extends Component {
     this.state = {
       username:'',
       email:'',
-      posts:[],
+      blogs:[],
       thumbnail:'',
       loaded:false,
     };
@@ -58,6 +58,7 @@ class Profile extends Component {
               username: result.user.username,
               email: result.user.email,
               thumbnail: result.user.thumbnail,
+              blogs: result.blog_details, 
               loaded: true
             })
         )
@@ -74,6 +75,10 @@ class Profile extends Component {
       )
     )
     .catch(err =>  this.props.setError('Some Server Problem'));
+  }
+
+  navigate(url){
+    this.props.history.push(url);
   }
 
   render() {
@@ -94,7 +99,7 @@ class Profile extends Component {
 	                  		{this.state.username}
 	                	</Typography>
 	                	<Typography gutterBottom>{this.state.email}</Typography>
-	                	<Typography gutterBottom>{this.state.posts.length} posts</Typography>
+	                	<Typography gutterBottom>{this.state.blogs.length} blogs</Typography>
 	              	</Grid>
           		</Grid>
 	        </Grid>
@@ -107,31 +112,26 @@ class Profile extends Component {
         	</Typography>
         	<Divider/>
 	        <Grid container spacing={24}>
-	        	<Grid item md={6} sm={12} >
-	            	<SideBlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-            		content='content .. content .. content .. content .. content .. 
-            		content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
-            	</Grid>
-            	<Grid item md={6} sm={12} >
-	            	<SideBlogFrontView to='/1' title='Title Making Title Making Title' 
-            		content='content .. 
-            		content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
-            	</Grid>
-            	<Grid item md={6} sm={12} >
-	            	<SideBlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-            		content='content .. content .. content .. content .. content .. 
-            		content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
-            	</Grid>
-            	<Grid item md={6} sm={12} >
-	            	<SideBlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-            		content='content .. content .. content .. content .. content .. 
-            		content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
-            	</Grid>
-            	<Grid item md={6} sm={12} >
-	            	<SideBlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-            		content='content .. content .. content .. content .. content .. 
-            		content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
-            	</Grid>
+            {(this.state.blogs.length>0)
+              ?(
+  	        	  this.state.blogs.map(blog =>
+                  <Grid item md={6} sm={12} key={blog.id} onClick={() => this.navigate('/blog/'+blog.id)}>
+    	            	<SideBlogFrontView
+                      title={blog.title}
+                      thumbnail={blog.featured_image}
+                      auther={this.state.username}
+                      className={{marginTop:2}}/>
+                	</Grid>
+                )
+              )
+              :(
+                <Grid item sm={12}>
+                  <Typography variant='subtitle1' color='inherit' noWrap>
+                    No Blog posted yet
+                  </Typography>
+                </Grid>
+              )
+            	}
 	        </Grid>
 	        </div>
       	</div>

@@ -14,6 +14,7 @@ import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
+
 import BlogView from './BlogView'
 
 
@@ -65,7 +66,9 @@ class AddBlog extends Component {
       image:'',
       content:[],
       open:false,
-      loaded:false
+      loaded:false,
+      auther:'',
+      thumbnail: ''
     };
   }
 
@@ -85,7 +88,11 @@ class AddBlog extends Component {
         (result.isAuth)
         ?(
             this.props.setUser({isAuth:true, user:result.user}),
-            this.setState({loaded: true})
+            this.setState({
+              auther: result.user.username,
+              thumbnail: result.user.thumbnail,
+              loaded: true
+            })            
         )
         :(
           this.props.setUser({isAuth:false}),
@@ -165,6 +172,35 @@ class AddBlog extends Component {
   publish = () => {
     if(this.validate()){
       // save to server
+      fetch('/api/post_blog',{
+      method:"POST",
+      headers: {
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        "title":this.state.title,
+        "featured_image":this.state.image,
+        "content": this.state.content
+      })
+    })
+    .then(res => res.json())
+    .then(result => 
+      (result.success)
+      ?(
+        (result.blog_created)
+        ?(
+            this.props.history.push('/blog/'+result.blog_id)
+        )
+        :(
+          this.props.setError(result.err)
+        )
+      )
+      :(
+        this.props.setError('Some Unknown Problem')
+      )
+    )
+    .catch(err =>  this.props.setError('Some Server Problem'));
     }
   }
 
@@ -303,8 +339,8 @@ class AddBlog extends Component {
             <BlogView
               title={this.state.title}
               image={this.state.image}
-              autherImage='https://material-ui.com/static/images/avatar/1.jpg'
-              auther='MKN'
+              autherImage={this.state.thumbnail}
+              auther={this.state.auther}
               content={this.state.content}/>
           </div>
         </Dialog>

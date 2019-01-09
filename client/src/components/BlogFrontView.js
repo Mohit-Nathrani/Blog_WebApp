@@ -41,7 +41,9 @@ function ComplexGrid(props) {
 
           <Grid item>
             <ButtonBase className={classes.image}>
-              <img className={classes.img} alt='featured' src='https://image.freepik.com/free-vector/pack-of-colorful-square-emoticons_23-2147589525.jpg' />
+              <img className={classes.img}
+                  alt='featured'
+                  src={props.thumbnail}/>
             </ButtonBase>
           </Grid>
           
@@ -55,14 +57,8 @@ function ComplexGrid(props) {
                     :(props.title)
                   }
                 </Typography> 
-                <Typography gutterBottom color='textSecondary'>
-                  {
-                    (props.content.length>160)
-                    ?(props.content.slice(0,160)+' ...')
-                    :(props.content)
-                  }
-                </Typography>
                 <Typography gutterBottom variant='subtitle2'>{props.auther}</Typography>
+                <Typography gutterBottom color='textSecondary'>Likes: {props.likes}</Typography>
               </Grid>
             </Grid>
           </Grid>

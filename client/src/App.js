@@ -282,7 +282,8 @@ class App extends React.Component {
             <Route path='/addblog_simple' 
                    render={(props) => <AddBlog2 {...props} 
                    setUser={this.getUser}
-                   setError={this.handleTransitionOpen}/>}
+                   setError={this.handleTransitionOpen}
+                   resetError={this.handleTransitionClose}/>}
             />
             <Route path='/blog/:post_id' 
                    render={(props) => <Blog {...props} 

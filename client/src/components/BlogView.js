@@ -22,14 +22,13 @@ img {
 
 const styles = theme => ({
    image: {
-    width: 256,
-    height: 256,
+    maxWidth: 256,
+    maxHeight: 256
   },
   img: {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
+    alignSelf: 'stretch',
+    width: '70%',
+    align: 'center'
   },
   bigAvatar: {
     marginTop: 10,
@@ -37,7 +36,11 @@ const styles = theme => ({
     height: 60,
   },
   tt:{
+    margin: theme.spacing.unit*2
+  },
+  setw:{
     margin: theme.spacing.unit*2,
+    width:'100%',
   },
   padd:{
     padding: theme.spacing.unit*5,
@@ -67,10 +70,7 @@ function BlogView(props) {
               <Typography variant='h5'>
                   {props.title}
               </Typography> 
-              <Typography variant='caption' className={classes.tt}>
-                  16 Dec 2018
-              </Typography>   
-              <Chip className={classes.tt}
+              <Chip
                 avatar={<Avatar src={props.autherImage}/>}
                 label={props.auther}/>
             </Grid>
@@ -93,12 +93,12 @@ function BlogView(props) {
         :(
           (para.type==='i')
           ?(
-            <Grid item key={para.index} className={classes.tt}>
-              <img className={classes.img} alt='content' src={para.text} width='70%'/> 
+            <Grid item key={para.index} className={classes.setw}>
+              <img alt='content-pic' src={para.text} width={'70%'} mode='fit'/> 
             </Grid>
           )
           :(
-            <Typography variant='subtitle1' className={classes.tt}>
+            <Typography variant='subtitle1' className={classes.tt} key={para.index}>
               <div dangerouslySetInnerHTML = {{__html: marked(rules+para.text)}} className={classes.space}>
               </div>
             </Typography>

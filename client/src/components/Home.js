@@ -29,7 +29,9 @@ class Home extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      tt:''
+      loaded:false,
+      popular: [],
+      recent: []
     };
   }
 
@@ -46,26 +48,36 @@ class Home extends React.Component{
     .then(result =>
       (result.success)
       ?(
-        (result.isAuth)
+        (result.got_homepage)
         ?(
-          this.props.setUser({isAuth:true, user:result.user})
+          this.props.setUser({isAuth:result.isAuth, user:result.user}),
+          this.setState({
+            popular: result.popular,
+            recent: result.recent,
+            loaded: true
+          }),
+          console.log(result)
         )
         :(
-          this.props.setUser({isAuth:false})
+          this.props.setError('Some Unknown Problem')
         )
       )
       :(
          this.props.setError('Some Unknown Problem')
-        //this.setState({isError: true, errorMsg: 'Some Unknown Problem' })
       )
     )
     .catch(err =>  this.props.setError('Some Server Problem..'));
   }
 
+  navigate(url){
+    this.props.history.push(url);
+  }
+
   render(){
     const { classes } = this.props;
     return (
-      <div>
+    (this.state.loaded)
+    ?(<div>
         <div className={classes.root}>
           <Grid container spacing={16} >
             
@@ -74,17 +86,28 @@ class Home extends React.Component{
                   Popular
               </Typography>
               <Divider/>
-              <BlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-              content='content .. content .. content .. content .. content .. content .. content .. content .. content .. content .. content .. content .. content .. content .. content .. 
-              content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
-              <BlogFrontView to='/2' title='Making title' content='content .. content .. content .. content .. content .. '/>
-              <BlogFrontView to='/3' title='Making title' content='content .. content .. content .. content .. content .. '/>
-              <BlogFrontView to='/4' title='Making title' content='content .. content .. content .. content .. content .. '/>
-              <BlogFrontView to='/5' title='Making title' content='content .. content .. content .. content .. content .. '/>
-              <BlogFrontView to='/5' title='Making title' content='content .. content .. content .. content .. content .. '/>
-              <BlogFrontView to='/6' title='Making title' content='content .. content .. content .. content .. content .. '/>
-              <BlogFrontView to='/7' title='Making title' content='content .. content .. content .. content .. content .. '/>
-              <BlogFrontView to='/8' title='Making title' content='content .. content .. content .. content .. content .. '/>
+
+              {(this.state.popular.length>0)
+              ?(
+                this.state.popular.map(blog =>
+                  <div onClick={() => this.navigate('/blog/'+blog._id)} key={blog._id}>
+                    <BlogFrontView
+                      title={blog.title}
+                      thumbnail={blog.featured_image}
+                      auther={blog.auther.username}
+                      likes = {blog.liked_by.length}/>
+                  </div>
+                )
+              )
+              :(
+                <Grid item sm={12}>
+                  <Typography variant='subtitle1' color='inherit' noWrap>
+                    No Recent Blog posted.
+                  </Typography>
+                </Grid>
+              )
+              }
+
             </Grid>
             
             <Grid item md={4} sm={12}>
@@ -92,21 +115,33 @@ class Home extends React.Component{
                   Recent
               </Typography>
               <Divider/>
-              <SideBlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-              content='content .. content .. content .. content .. content .. 
-              content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
 
-              <SideBlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-              content='content .. content .. content .. content .. content .. 
-              content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
-
-              <SideBlogFrontView to='/1' title='Making Title Making Title Making Title Making Title Making Title Making Title Making Title Making Title' 
-              content='content .. content .. content .. content .. content .. 
-              content .. content .. content .. content .. content .. ' auther={'MAk erve'} className={{marginTop:2}}/>
+              {(this.state.recent.length>0)
+              ?(
+                this.state.recent.map(blog =>
+                  <div onClick={() => this.navigate('/blog/'+blog._id)} key={blog._id}>
+                    <SideBlogFrontView
+                      title={blog.title}
+                      thumbnail={blog.featured_image}
+                      auther={blog.auther.username}
+                      className={{marginTop:2}}/>
+                  </div>
+                )
+              )
+              :(
+                <Grid item sm={12}>
+                  <Typography variant='subtitle1' color='inherit' noWrap>
+                    No Recent Blog posted.
+                  </Typography>
+                </Grid>
+              )
+              }
             </Grid>
           </Grid>
         </div>
       </div>
+    )
+    :(<div></div>)
     );
   }
 }
