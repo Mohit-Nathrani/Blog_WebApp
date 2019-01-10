@@ -86,7 +86,8 @@ class Comment extends React.Component {
         )
       )
       .catch(err => {
-        this.props.setError('Some Server Problem')
+        this.setState({submitting:false})
+        return this.props.setError('Some Server Problem')
       });
     }
   }

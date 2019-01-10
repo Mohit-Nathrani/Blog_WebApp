@@ -26,7 +26,6 @@ const styles = theme => ({
     maxHeight: 256
   },
   img: {
-    alignSelf: 'stretch',
     width: '70%',
     align: 'center'
   },

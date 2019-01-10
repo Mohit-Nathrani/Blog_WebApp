@@ -137,7 +137,7 @@ class Profile extends Component {
       	</div>
       </div>
     )
-    :(<div></div>)
+    :(<div>Loading...</div>)
   );}
 }
 

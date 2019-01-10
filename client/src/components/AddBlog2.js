@@ -68,7 +68,8 @@ class AddBlog extends Component {
       open:false,
       loaded:false,
       auther:'',
-      thumbnail: ''
+      thumbnail: '',
+      publishing:false
     };
   }
 
@@ -170,37 +171,43 @@ class AddBlog extends Component {
   }
 
   publish = () => {
+    this.setState({publishing:true});
     if(this.validate()){
       // save to server
       fetch('/api/post_blog',{
-      method:"POST",
-      headers: {
-        'Accept':'application/json',
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify({
-        "title":this.state.title,
-        "featured_image":this.state.image,
-        "content": this.state.content
+        method:"POST",
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          "title":this.state.title,
+          "featured_image":this.state.image,
+          "content": this.state.content
+        })
       })
-    })
-    .then(res => res.json())
-    .then(result => 
-      (result.success)
-      ?(
-        (result.blog_created)
+      .then(res => res.json())
+      .then(result => 
+        (result.success)
         ?(
-            this.props.history.push('/blog/'+result.blog_id)
+          (result.blog_created)
+          ?(
+              this.props.history.push('/blog/'+result.blog_id)
+          )
+          :(
+            this.setState({publishing:false}),
+            this.props.setError(result.err)
+          )
         )
         :(
-          this.props.setError(result.err)
+            this.setState({publishing:false}),
+            this.props.setError('Some Unknown Problem')
         )
       )
-      :(
-        this.props.setError('Some Unknown Problem')
-      )
-    )
-    .catch(err =>  this.props.setError('Some Server Problem'));
+      .catch(err => { 
+          this.setState({publishing:false})
+          return this.props.setError('Some Server Problem')
+      });
     }
   }
 
@@ -250,7 +257,8 @@ class AddBlog extends Component {
             color='primary'
             aria-label='Add'
             onClick={this.publish}
-            className={classes.margin}>
+            className={classes.margin}
+            disabled={this.state.publishing}>
             <NavigationIcon className={classes.extendedIcon} />
             Publish
           </Fab>
@@ -347,7 +355,7 @@ class AddBlog extends Component {
       </div>
     </div>
     )
-    :(<div></div>)
+    :(<div>Loading...</div>)
   );
   }
 }

@@ -226,38 +226,45 @@ class App extends React.Component {
                 <ListItemText primary={'Home'} />
               </ListItem>
             </NavLink>
-            <NavLink to='/profile' style={{ textDecoration: 'none' }}>  
-              <ListItem button>
-                <ListItemIcon>
-                  <img alt='Profile' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABfAAAAXwBsrqMZwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFOSURBVEiJ7ZK/SsNgFMV/n0lo6AO42L6BSjEPUKkOvoBvUEIH6yAWHDMr0iFQMNDOougsggg+QBeXDm4FCwUVdJBAkutSoZXmD0QEoWf77rnn/ODjwn+XlnWxXq/XLMs6tyzrpd/vD7LmVJYl27aPgdbkOVZKtYrF4mW73f7MDbBtexe4mGMNwzCsdbvdp6T8UhoA2IuZlzVNO00LZwGsJ3jV3wDoCV7qF6cCROQuwbvNDVBKHQFvc6xXwzAOcgM8zxsAFeAa+ADegStd1yudTmeYll8oVbFn5jiOPhqNqlEUbQIbSqkysDyxxyIyBPoicl8qlR4cxwkyAZrNZsH3/X3gcKowTWMROTFN03Vd148FNBqNlSiKboDVjMU/9RgEwU6v13v+HsycaRiGXo5ygDXDMM6mBzMApdRWjnIARGQ7FgAU8gIAMwmw0N/rCyatYo55Vz6CAAAAAElFTkSuQmCC'/>
-                </ListItemIcon>
-                <ListItemText primary={'Profile'} />
-              </ListItem>
-            </NavLink>
-            <NavLink to='/addblog_simple' style={{ textDecoration: 'none' }}>
-              <ListItem button>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Add Blog (Simple)'} />
-              </ListItem>
-            </NavLink>
-            <NavLink to='/addblog_markdown' style={{ textDecoration: 'none' }}>
-              <ListItem button>
-                <ListItemIcon>
-                  <img alt='Add Blog' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABfAAAAXwBsrqMZwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEESURBVEiJ7ZNNTsMwEIXfc3oMUAX3QCplyzFiqxsuw6KKfRB2/IhyDjalt7AybGI0da00JAiQ4Ntk5s1P8jQK8M8RqBNr7TXJWwBnI/e9krzx3t8lwey9jVxPWA4A5yKy1sIsazgFAGPMZYzRGGPudZxqTdM85Zvrul52PXOtm7wRANq2jVVVxTxOeWlG9/Q5SGxEpBQDwMY5dzCQ9XxQdPCVFB2EEFjSj+GcO7DxMw4S1tpHkouUk3zw3l/pmtZK9DogufcBIjJTtUWnLUc7CCFc9NWH8HtvMJTRNwDw0j2f+3aMvsHQ+3z7Dd4AnJT+yE+w1UnuYAVgN2H5juRqwvxf5B3fZV4s2yrLzAAAAABJRU5ErkJggg=='/>
-                </ListItemIcon>
-                <ListItemText primary={'Add Blog'} />
-              </ListItem>
-            </NavLink>
-            <a href="http://localhost:3001/auth/logout" style={{ textDecoration: 'none' }}>
-              <ListItem button>
-                <ListItemIcon>
-                  <img alt='Logout' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABfAAAAXwBsrqMZwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEtSURBVEiJ7ZS9SsRAFIXPyfoANmIlopW76AMYENTCysKHyEzS7MtYLJkwjyFWIqKwgp3NphBsZAWt9gHkjoUEdkPi4M6ujX5dbs49H0N+gH88cPpCKXVK8hzA1px9zyT7xpjLahDN2MhBQDkAbDvnBtODqBbYCCiv2PxOsHBCBfcAJssSDIuiiEUkBvC2DEFPa71jrS1JHrdJQgSrAG611nvGmBHJAwCv9dCKryWKoqM8z298OWPMk1LqjOTDzL5vUUQ+fJmKTqfD+sx7AgB3Wuu2e+8kT4wxj1mW7YrIxTyCNiYicmitLdM07YnIFYC1eijkIY+stWWSJF3n3DWA9aZQyAlirfUQQBdfb1QjIQIA2PcFfv1fNF5A50urwDmXoeFr/AFjklnA/l/kEwnQVBXj4UWpAAAAAElFTkSuQmCC'/>
-                </ListItemIcon>
-                <ListItemText primary={'Logout'} />
-              </ListItem>
-            </a>
+            {(this.state.isAuth)
+              ?(
+                <div>
+                  <NavLink to='/profile' style={{ textDecoration: 'none' }}>  
+                    <ListItem button>
+                      <ListItemIcon>
+                        <img alt='Profile' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABfAAAAXwBsrqMZwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFOSURBVEiJ7ZK/SsNgFMV/n0lo6AO42L6BSjEPUKkOvoBvUEIH6yAWHDMr0iFQMNDOougsggg+QBeXDm4FCwUVdJBAkutSoZXmD0QEoWf77rnn/ODjwn+XlnWxXq/XLMs6tyzrpd/vD7LmVJYl27aPgdbkOVZKtYrF4mW73f7MDbBtexe4mGMNwzCsdbvdp6T8UhoA2IuZlzVNO00LZwGsJ3jV3wDoCV7qF6cCROQuwbvNDVBKHQFvc6xXwzAOcgM8zxsAFeAa+ADegStd1yudTmeYll8oVbFn5jiOPhqNqlEUbQIbSqkysDyxxyIyBPoicl8qlR4cxwkyAZrNZsH3/X3gcKowTWMROTFN03Vd148FNBqNlSiKboDVjMU/9RgEwU6v13v+HsycaRiGXo5ygDXDMM6mBzMApdRWjnIARGQ7FgAU8gIAMwmw0N/rCyatYo55Vz6CAAAAAElFTkSuQmCC'/>
+                      </ListItemIcon>
+                      <ListItemText primary={'Profile'} />
+                    </ListItem>
+                  </NavLink>
+                  <NavLink to='/addblog_simple' style={{ textDecoration: 'none' }}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={'Add Blog (Simple)'} />
+                    </ListItem>
+                  </NavLink>
+                  <NavLink to='/addblog_markdown' style={{ textDecoration: 'none' }}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <img alt='Add Blog' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABfAAAAXwBsrqMZwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEESURBVEiJ7ZNNTsMwEIXfc3oMUAX3QCplyzFiqxsuw6KKfRB2/IhyDjalt7AybGI0da00JAiQ4Ntk5s1P8jQK8M8RqBNr7TXJWwBnI/e9krzx3t8lwey9jVxPWA4A5yKy1sIsazgFAGPMZYzRGGPudZxqTdM85Zvrul52PXOtm7wRANq2jVVVxTxOeWlG9/Q5SGxEpBQDwMY5dzCQ9XxQdPCVFB2EEFjSj+GcO7DxMw4S1tpHkouUk3zw3l/pmtZK9DogufcBIjJTtUWnLUc7CCFc9NWH8HtvMJTRNwDw0j2f+3aMvsHQ+3z7Dd4AnJT+yE+w1UnuYAVgN2H5juRqwvxf5B3fZV4s2yrLzAAAAABJRU5ErkJggg=='/>
+                      </ListItemIcon>
+                      <ListItemText primary={'Add Blog'} />
+                    </ListItem>
+                  </NavLink>
+                  <a href="http://localhost:3001/auth/logout" style={{ textDecoration: 'none' }}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <img alt='Logout' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAABfAAAAXwBsrqMZwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEtSURBVEiJ7ZS9SsRAFIXPyfoANmIlopW76AMYENTCysKHyEzS7MtYLJkwjyFWIqKwgp3NphBsZAWt9gHkjoUEdkPi4M6ujX5dbs49H0N+gH88cPpCKXVK8hzA1px9zyT7xpjLahDN2MhBQDkAbDvnBtODqBbYCCiv2PxOsHBCBfcAJssSDIuiiEUkBvC2DEFPa71jrS1JHrdJQgSrAG611nvGmBHJAwCv9dCKryWKoqM8z298OWPMk1LqjOTDzL5vUUQ+fJmKTqfD+sx7AgB3Wuu2e+8kT4wxj1mW7YrIxTyCNiYicmitLdM07YnIFYC1eijkIY+stWWSJF3n3DWA9aZQyAlirfUQQBdfb1QjIQIA2PcFfv1fNF5A50urwDmXoeFr/AFjklnA/l/kEwnQVBXj4UWpAAAAAElFTkSuQmCC'/>
+                      </ListItemIcon>
+                      <ListItemText primary={'Logout'} />
+                    </ListItem>
+                  </a>
+                </div>
+              )
+              :(<div></div>)
+          }
           </List>
         </Drawer>
         <main className={classes.content}>
@@ -294,7 +301,7 @@ class App extends React.Component {
                    render={(props) => <NotFound {...props} 
                    setUser={this.getUser}
                    setError={this.handleTransitionOpen}/>}
-            />
+            />              
           </Switch>
         </main>
         <Snackbar

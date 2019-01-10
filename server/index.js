@@ -441,35 +441,6 @@ app.post('/api/post_comment', (req, res)=> {
     }
 });
 
-app.post('/api/get_comment', (req, res)=> {
-    Blog.findById(req.body.blog_id)
-    .populate({
-        path:'comments',
-        model: Comment,
-        populate:{
-            path:'reply',
-            populate: { 
-                path: 'reply',
-                populate: { 
-                    path: 'reply',
-                    populate: { 
-                        path: 'reply',
-                    }   
-                }    
-            }
-        }
-    })
-    .exec(function (err, data) {
-        if (err){
-            res.send({success:true, got_comments:false, err:'some error'});
-        }
-        else{
-            res.send({success:true, got_comments:true, comments:data.comments});
-        }
-    });
-});
-
-
 /*
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));

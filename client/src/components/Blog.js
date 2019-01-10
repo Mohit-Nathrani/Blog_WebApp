@@ -119,7 +119,7 @@ class Blog extends React.Component {
         </div>
       </div>
       )
-    :(<div></div>)
+    :(<div>Loading...</div>)
     );
   }
 }
