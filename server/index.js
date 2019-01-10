@@ -40,9 +40,14 @@ app.get('/check', (req,res) => {
     res.send({success:true});
 });
 
-// set up routes
+// auth routes
 app.use('/auth', authRoutes);
 
+
+/*
+this route will handle request for blog for home page
+Will return popular and recent posts
+*/
 app.post('/api/home', (req,res) => {
     if(!req.user){
 	   isAuth= false
@@ -100,6 +105,9 @@ app.post('/api/home', (req,res) => {
     });
 });
 
+/*
+Will return profile info of client
+*/
 app.post('/api/profile', (req, res) => {
     if(!req.user){
         res.send({success:true, isAuth:false});
@@ -119,6 +127,9 @@ app.post('/api/profile', (req, res) => {
     }
 });
 
+/*
+Will check that user is logged in or not
+*/
 app.post('/api/check_login',(req,res) => {
     if(!req.user){
         res.send({success:true, isAuth:false});
@@ -129,6 +140,9 @@ app.post('/api/check_login',(req,res) => {
 });
 
 
+/*
+save blogs to database posted by client
+*/
 app.post('/api/post_blog', (req, res)=> {
     if(!req.user)
     {
@@ -158,6 +172,10 @@ app.post('/api/post_blog', (req, res)=> {
     }
 });
 
+/*
+Will send the blog info
+with its comments
+*/
 app.post('/api/get_blog', (req, res)=> {
     Blog.findById(req.body.blog_id)
     .populate({
@@ -229,63 +247,12 @@ app.post('/api/get_blog', (req, res)=> {
             });
         }
     });
-    /*Blog.findOne({_id:req.body.post_id},function(err,blog){
-        if(err){
-            res.send({
-                success: true,
-                got_blog :false,
-                error: 'inputs are not proper'
-            });
-        }
-        else if(blog){
-            User.findOne({_id: blog.auther},function(err, user){
-                if(err){
-                    console.log('err: ',err);
-                    res.send({
-                        success: true,
-                        got_blog: false,
-                        error: 'auther info is not available',
-                    });
-                }
-                else if(!req.user){
-                    res.send({
-                        success: true,
-                        got_blog: true,
-                        isAuth: false,
-                        user: null,
-                        blog: blog,
-                        auther: user
-                    });
-                }
-                else{
-                    var flag=false;
-                    blog.liked_by.forEach((id) => {
-                        if(req.user._id.equals(id)){
-                            flag=true;
-                        }
-                    });
-                    res.send({
-                        success: true,
-                        got_blog: true,
-                        isAuth: true,
-                        user: req.user,
-                        blog: blog,
-                        auther: user,
-                        liked: flag
-                    });
-                }
-            });
-        }
-        else{
-            res.send({
-                success: true,
-                got_blog :false,
-                error: 'Blog not found'
-            });
-        }
-    });*/
 });
 
+/*
+this route will handle like request of user for a particular blog
+will not increasing likes if user has already liked the blog
+*/
 app.post('/api/like_blog', (req, res)=> {
     Blog.findOne({_id:req.body.blog_id},function(err,blog){
         if(err){
@@ -338,7 +305,9 @@ app.post('/api/like_blog', (req, res)=> {
     });
 });
 
-
+/*
+this route will handle reply request on a comment
+*/
 app.post('/api/post_comment_reply', (req, res)=> {
     if(!req.user)
     {
@@ -392,7 +361,9 @@ app.post('/api/post_comment_reply', (req, res)=> {
     }
 });
 
-
+/*
+this route will handle comment posting request on a blog
+*/
 app.post('/api/post_comment', (req, res)=> {
     if(!req.user)
     {

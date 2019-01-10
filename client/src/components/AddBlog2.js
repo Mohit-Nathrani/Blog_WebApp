@@ -98,9 +98,7 @@ class AddBlog extends Component {
         :(
           this.props.setUser({isAuth:false}),
           this.props.setError('Please Login First...'),
-          (this.props.history.length === 2)
-          ?this.props.history.push('/')
-          :this.props.history.goBack()
+          this.props.history.push('/')
         )
       )
       :(
